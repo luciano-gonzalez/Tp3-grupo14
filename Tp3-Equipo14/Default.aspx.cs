@@ -17,6 +17,17 @@ namespace Tp3_Equipo14
         {
             ArticulosNegocio negocio = new ArticulosNegocio();
             ListaArticulos = negocio.listarconSP();
+
+            if (!IsPostBack)
+            {
+                if (Session["ListaArticulos"] == null) {
+                Session.Add("ListaArticulos", negocio.listarconSP());
+                
+                }
+                
+                repRepeater.DataSource = Session["ListaArticulos"];
+                repRepeater.DataBind();
+            }
         }
     }
 }

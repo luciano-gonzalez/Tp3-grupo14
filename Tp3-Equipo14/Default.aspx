@@ -4,28 +4,32 @@
 
     <main>
         <section class="row" aria-labelledby="aspnetTitle">
-     
+
             <p><a href="http://www.asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
         </section>
 
 
     </main>
     <div class="row row-cols-1 row-cols-md-2 g-4">
-    <%
-        foreach (Dominio.Articulo arti in ListaArticulos)
-        {
-    %>        
-         <div class="col">
-          <div class="card">
-            <img src="<%:arti.urlImagen %>" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title"><%: arti._nombre %></h5>
-              <p class="card-text"><%: arti._descripcion %>.</p>
-              <a href="DetallesArticulo.aspx?id=<%: arti.ID %>"> Ver detalle </a>
-            </div>
-          </div>
-         </div>
-        
-    <%   } %>
+
+       
+        <asp:Repeater ID="repRepeater" runat="server" >
+            <ItemTemplate>
+                <div class="col">
+                    <div class="card">
+                        <img src="<%#Eval("urlImagen") %>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"><%#Eval("_nombre") %></h5>
+                            <p class="card-text"><%#Eval("_descripcion") %>.</p>
+                            <a href="DetallesArticulo.aspx?id=<%#Eval("ID") %>">Ver detalle </a>
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
+
     </div>
+
+
+
 </asp:Content>
