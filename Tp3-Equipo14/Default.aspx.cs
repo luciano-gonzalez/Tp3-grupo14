@@ -29,5 +29,10 @@ namespace Tp3_Equipo14
                 repRepeater.DataBind();
             }
         }
+
+        protected void btnCarrito_Click(object sender, EventArgs e)
+        {
+            string valor = ((Button)sender).CommandArgument;
+        }
     }
 }
