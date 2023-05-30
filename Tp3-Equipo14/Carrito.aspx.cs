@@ -12,6 +12,9 @@ namespace Tp3_Equipo14
         protected void Page_Load(object sender, EventArgs e)
         {
 
+            dgvCarrito.DataSource = Session["vecIds"];
+            dgvCarrito.DataBind();
+
         }
     }
 }

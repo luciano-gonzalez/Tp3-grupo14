@@ -13,6 +13,26 @@ namespace Tp2_Programacion
 {
     public class ArticulosNegocio
     {
+        public int contRegistros()
+        {
+            int contRegistros = 0;
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("storedListar");
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    contRegistros++;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return contRegistros;
+        }
         public List<Articulo> listarconSP()
         {
             List<Articulo> lista = new List<Articulo>();

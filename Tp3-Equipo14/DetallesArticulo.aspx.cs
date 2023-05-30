@@ -16,7 +16,7 @@ namespace Tp3_Equipo14
         if (Request.QueryString["id"]!=null)
             {
               int id = int.Parse(Request.QueryString["id"].ToString());
-            List<Articulo> Temporal = (List<Articulo>)Session["ListaArticulos"];
+                List<Articulo> Temporal = (List<Articulo>)Session["ListaArticulos"];
                 Articulo seleccionado = Temporal.Find(x => x.ID == id);
                 Txtid.Text = seleccionado.ID.ToString();
                 Txtnombre.Text= seleccionado._nombre;

@@ -11,7 +11,6 @@
                 <label for="txtid" class="form-label">id</label>
                 <asp:TextBox ID="Txtid" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
-                    <asp:TextBox ID="Texturlimagen" runat="server" CssClass="form-control"></asp:TextBox>
             <div class="mb-3">
                 <label for="Txtcodart" class="form-label">Codigo articulo</label>
                 <asp:TextBox ID="Txtcodart" runat="server" CssClass="form-control"></asp:TextBox>
@@ -45,6 +44,7 @@
             <div class="col-6">
                 <div class="mb-3">
                     <label for="TxturlImagen" class="form-label">Url imagen</label>
+                    <asp:TextBox ID="Texturlimagen" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
                <asp:Image imageUrl="<%=urlImagen%>" runat="server" ID="imgArticulo" Width="60%"/>
             </div>
