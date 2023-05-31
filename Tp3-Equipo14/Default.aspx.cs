@@ -51,6 +51,23 @@ namespace Tp3_Equipo14
             }
         }
 
+        public int verificarId(int id)
+        {
+            int aux = 0;
+            ArticulosNegocio articulo = new ArticulosNegocio();
+            int[] vectorids = (int[])Session["vecIds"];
+
+            for (int x = 0; x < articulo.contRegistros(); x++)
+            {
+                if (vectorids[x] == id)
+                {
+                    aux++;
+                }
+
+            }
+            return aux;
+        }
+
         protected void btnCarrito_Click(object sender, EventArgs e)
         {
           
@@ -63,8 +80,11 @@ namespace Tp3_Equipo14
             for (int x = 0; x<articulo.contRegistros(); x++)
             {
                 if (vectorids[x]==0 && contar==0){
-                    vectorids[x] = id;
-                    contar++;
+                    if (verificarId(id) == 0)
+                    {
+                        vectorids[x] = id;
+                        contar++;
+                    }
                 }
 
             }
