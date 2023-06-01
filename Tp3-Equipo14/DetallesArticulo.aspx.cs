@@ -36,5 +36,10 @@ namespace Tp3_Equipo14
             }
 
         }
+
+        protected void filtro_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
