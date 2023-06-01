@@ -32,7 +32,7 @@ namespace Tp3_Equipo14
                 Txtprecio.ReadOnly = true;
                 Txtmarca.ReadOnly = true;
                 Txtdescripcion.ReadOnly = true;
-                Texturlimagen.Text = seleccionado.urlImagen.ToString();
+                imgArticulo.ImageUrl = seleccionado.urlImagen.ToString();
             }
 
         }

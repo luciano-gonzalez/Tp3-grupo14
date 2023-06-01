@@ -38,15 +38,8 @@
                 <asp:TextBox ID="Txtprecio" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
           </div>
-
-
-                <asp:UpdatePanel ID="uptdatepanel1" runat="server"></asp:UpdatePanel>
                
             <div class="col-6">
-                <div class="mb-3">
-                    <label for="TxturlImagen" class="form-label">Url imagen</label>
-                    <asp:TextBox ID="Texturlimagen" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
                <asp:Image imageUrl="<%=urlImagen%>" runat="server" ID="imgArticulo" Width="60%"/>
             </div>
         </div>
