@@ -1,12 +1,14 @@
 ﻿using Dominio;
-using System.Collections.Generic;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection.Emit;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
 using Tp2_Programacion;
 
 namespace Tp3_Equipo14

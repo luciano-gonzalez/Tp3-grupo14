@@ -81,8 +81,11 @@ namespace Tp3_Equipo14
             for (int x = 0; x<articulo.contRegistros(); x++)
             {
                 if (vectorids[x]==0 && contar==0){
-                    vectorids[x] = id;
-                    contar++;
+                    if (verificarId(id) == 0)
+                    {
+                        vectorids[x] = id;
+                        contar++;
+                    }
                 }
 
             }
