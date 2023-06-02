@@ -17,52 +17,55 @@ namespace Tp3_Equipo14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ArticulosNegocio negocio = new ArticulosNegocio();
-            int[] vectorids = (int[])Session["vecIds"];
-            int cantArticulosCarrito = 0;
-            for (int i = 0; i < negocio.contRegistros(); i++)
+            if (!IsPostBack)
             {
-                if (vectorids[i] != 0)
+                ArticulosNegocio negocio = new ArticulosNegocio();
+                int[] vectorids = (int[])Session["vecIds"];
+                int cantArticulosCarrito = 0;
+                for (int i = 0; i < negocio.contRegistros(); i++)
                 {
-                    cantArticulosCarrito++;
-                }
-            }
-            Articulo[] vecArticulos = new Articulo[cantArticulosCarrito];
-            int contArti = 0;
-            int id = 0;
-            List<Articulo> Temporal = (List<Articulo>)Session["ListaArticulos"];
-            for (int i = 0; i < negocio.contRegistros(); i++)
-            {
-                if (vectorids[i] != 0)
-                {
-                    id = vectorids[i];
-                    vecArticulos[contArti] = Temporal.Find(x => x.ID == id);
-                    contArti++;
-                }
-            }
-
-            dgvCarrito.DataSource = vecArticulos;
-            dgvCarrito.DataBind();
-
-
-            ///Agregar las imagenes al dgv
-            int indiceColumnaPrecio = 1; // Índice de la columna de precios
-
-            decimal totalPrecioFinal = 0;
-
-            foreach (GridViewRow fila in dgvCarrito.Rows)
-            {
-                if (fila.Cells[indiceColumnaPrecio].Text != string.Empty)
-                {
-                    if (decimal.TryParse(fila.Cells[indiceColumnaPrecio].Text, out decimal precio))
+                    if (vectorids[i] != 0)
                     {
-                        totalPrecioFinal += precio;
+                        cantArticulosCarrito++;
                     }
                 }
+                Articulo[] vecArticulos = new Articulo[cantArticulosCarrito];
+                int contArti = 0;
+                int id = 0;
+                List<Articulo> Temporal = (List<Articulo>)Session["ListaArticulos"];
+                for (int i = 0; i < negocio.contRegistros(); i++)
+                {
+                    if (vectorids[i] != 0)
+                    {
+                        id = vectorids[i];
+                        vecArticulos[contArti] = Temporal.Find(x => x.ID == id);
+                        contArti++;
+                    }
+                }
+
+
+                dgvCarrito.DataSource = vecArticulos;
+                dgvCarrito.DataBind();
+
+
+                ///Agregar las imagenes al dgv
+                int indiceColumnaPrecio = 1;
+
+                decimal totalPrecioFinal = 0;
+
+                foreach (GridViewRow fila in dgvCarrito.Rows)
+                {
+                    if (fila.Cells[indiceColumnaPrecio].Text != string.Empty)
+                    {
+                        if (decimal.TryParse(fila.Cells[indiceColumnaPrecio].Text, out decimal precio))
+                        {
+                            totalPrecioFinal += precio;
+                        }
+                    }
+                }
+
+                Label1.Text = totalPrecioFinal.ToString();
             }
-
-            Label1.Text = totalPrecioFinal.ToString();
-
         }
 
         public Articulo[] ObtenerDatos()
@@ -70,6 +73,7 @@ namespace Tp3_Equipo14
             ArticulosNegocio negocio = new ArticulosNegocio();
             int[] vectorids = (int[])Session["vecIds"];
             int cantArticulosCarrito = 0;
+
             for (int i = 0; i < negocio.contRegistros(); i++)
             {
                 if (vectorids[i] != 0)
@@ -122,25 +126,26 @@ namespace Tp3_Equipo14
         }
 
 
-        protected void gridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        protected void dgvCarrito_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-
-            int indice = e.RowIndex;
-            int id = int.Parse(dgvCarrito.DataKeys[indice]["ID"].ToString());
-            Articulo[] vecArticulos = ObtenerDatos();
-            Articulo[] NuevosArticulos = new Articulo[cantReg() - 1];
-            int cont = 0;
-            for (int i = 0; i < cantReg(); i++)
+            if (e.CommandName == "Eliminar")
             {
-                if (vecArticulos[i].ID != id)
+                int indice = Convert.ToInt32(e.CommandArgument);
+                int id = int.Parse(dgvCarrito.DataKeys[indice]["ID"].ToString());
+                Articulo[] vecArticulos = ObtenerDatos();
+                Articulo[] NuevosArticulos = new Articulo[cantReg() - 1];
+                int cont = 0;
+                for (int i = 0; i < cantReg(); i++)
                 {
-                    NuevosArticulos[cont] = vecArticulos[i];
-                    cont++;
+                    if (vecArticulos[i].ID != id)
+                    {
+                        NuevosArticulos[cont] = vecArticulos[i];
+                        cont++;
+                    }
                 }
+                dgvCarrito.DataSource = NuevosArticulos;
+                dgvCarrito.DataBind();
             }
-
-            dgvCarrito.DataSource = NuevosArticulos;
-            dgvCarrito.DataBind();
         }
     }
 }
