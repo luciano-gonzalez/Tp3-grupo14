@@ -13,6 +13,26 @@ namespace Tp2_Programacion
 {
     public class ArticulosNegocio
     {
+        public int contRegistros()
+        {
+            int contRegistros = 0;
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("storedListar");
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    contRegistros++;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return contRegistros;
+        }
         public List<Articulo> listarconSP()
         {
             List<Articulo> lista = new List<Articulo>();
@@ -203,18 +223,18 @@ namespace Tp2_Programacion
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string consulta = "SELECT a.id,a.Codigo,a.Descripcion, a.Nombre,c.Id as 'idCategoria',c.Descripcion as 'Categoria',m.Id as 'idMarca', m.Descripcion as 'Marca', a.Precio from ARTICULOS a inner join categorias c on c.Id = a.IdCategoria INNER join MARCAS m on m.Id = a.IdMarca And ";
-                if (campo == "ID") {
+                string consulta = "SELECT a.id,a.Codigo,a.Descripcion, a.Nombre,c.Id as 'idCategoria',c.Descripcion as 'Categoria',m.Id as 'idMarca', m.Descripcion as 'Marca', a.Precio, i.imagenurl from ARTICULOS a left join categorias c on c.Id = a.IdCategoria INNER join MARCAS m on m.Id = a.IdMarca inner join imagenes i on i.id = a. id And ";
+                if (campo == "Marca") {
                     switch (criterio)
                     {
-                        case "Mayor a":
-                            consulta += "a.id > " + filtro;
+                        case "Comienza con":
+                            consulta += "m.Descripcion like '" + filtro + "%' ";
                             break;
-                        case "Menor a":
-                            consulta += "a.id < " + filtro;
+                        case "Termina con":
+                            consulta += "m.Descripcion like '%" + filtro + "'";
                             break;
-                        case "Igual a":
-                            consulta += "a.id = " + filtro;
+                        case "Contiene":
+                            consulta += "m.Descripcion like '%" + filtro + "%'";
                             break;
                     }
                 }
@@ -238,6 +258,7 @@ namespace Tp2_Programacion
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
+                int indiceColumnaCategoria = datos.Lector.GetOrdinal("idCategoria");
                 while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo();
@@ -249,9 +270,22 @@ namespace Tp2_Programacion
                     aux._marca._nombre = (string)datos.Lector["Marca"];
                     aux._marca._idMarca = (int)datos.Lector["idMarca"];
                     aux._categoria = new Categoria();
-                    aux._categoria._descripcion = (string)datos.Lector["Categoria"];
-                    aux._categoria._idCategoria = (int)datos.Lector["idCategoria"];
-                    aux._precio = (float)datos.Lector.GetDecimal(8);
+
+                    if (!datos.Lector.IsDBNull(indiceColumnaCategoria))
+                    {
+                        aux._categoria._descripcion = (string)datos.Lector["Categoria"];
+                        aux._categoria._idCategoria = (int)datos.Lector["idCategoria"];
+                        aux.urlImagen = (string)datos.Lector["imagenurl"];
+                        aux._precio = (float)datos.Lector.GetDecimal(8);
+                    }
+                    else
+                    {
+                        aux._categoria._descripcion = "no disponible";
+                        aux._categoria._idCategoria = 0;
+                        aux.urlImagen = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_txxCgoGFnihbdmhtwePTHURvJbXXnRkN9g&usqp=CAU";
+                        aux._precio = (float)datos.Lector.GetDecimal(8);
+
+                    }
 
                     lista.Add(aux);
                 }
