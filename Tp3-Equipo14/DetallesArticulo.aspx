@@ -40,7 +40,7 @@
           </div>
                
             <div class="col-6">
-               <asp:Image imageUrl="<%=urlImagen%>" runat="server" ID="imgArticulo" Width="60%"/>
+               <asp:Image imageUrl="<%=urlImagen%>" runat="server" ID="imgArticulo" Width="80%"/>
             </div>
         </div>
     
