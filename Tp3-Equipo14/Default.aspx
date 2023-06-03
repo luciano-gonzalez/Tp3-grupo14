@@ -65,11 +65,27 @@
 
 
 
-
-
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-1">
         <asp:Repeater ID="repRepeater" runat="server">
             <ItemTemplate>
+            <div class="col-10 d-flex justify-content-center">
+                    <div class="card text-bg-dark" style="max-width: 18rem;">
+                        <img src="<%#Eval("urlImagen") %>" class="card-img-top" alt="<%#Eval("_nombre") %>">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold fs-3"><%#Eval("_nombre") %></h5>
+                            <%--<p class="card-text"><%#Eval("_descripcion") %>.</p>--%>
+                            <p class="card-text">Marca: <%#Eval("_marca") %></p>
+                           <div class="d-flex justify-content-center">
+                                <a href="DetallesArticulo.aspx?id=<%#Eval("ID") %>" type="button" class="p-2 col-10 btn btn-primary">Ver detalle &raquo; </a>
+                                <asp:Button Text="🛒" CssClass="p-2 col-2 btn btn-warning" runat="server" ID="Button2" CommandArgument='<%#Eval("ID") %>' CommandName="Articuloid" OnClick="btnCarrito_Click" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>  
+    </div>
+<!--
                 <div class="col">
                     <div class="card">
                         <img src="<%#Eval("urlImagen") %>" class="card-img-top" alt="...">
@@ -84,9 +100,6 @@
                         </div>
                     </div>
                 </div>
-            </ItemTemplate>
-        </asp:Repeater>
-
-    </div>
+    -->
 
 </asp:Content>
