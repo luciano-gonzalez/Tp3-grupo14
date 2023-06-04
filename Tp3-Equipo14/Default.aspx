@@ -68,7 +68,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-1">
         <asp:Repeater ID="repRepeater" runat="server">
             <ItemTemplate>
-            <div class="col-10 d-flex justify-content-center">
+            <div class="mb-3 d-flex justify-content-center">
                     <div class="card text-bg-dark" style="max-width: 18rem;">
                         <img src="<%#Eval("urlImagen") %>" class="card-img-top" alt="<%#Eval("_nombre") %>">
                         <div class="card-body">

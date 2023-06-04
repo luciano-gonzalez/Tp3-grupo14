@@ -37,7 +37,7 @@ namespace Tp2_Programacion
         {
             List<Articulo> lista = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
-    
+
             try
             {
                 datos.setearProcedimiento("storedListar");
@@ -99,7 +99,7 @@ namespace Tp2_Programacion
                     Marca aux = new Marca();
                     aux._nombre = (string)datos.Lector["Descripcion"];
                     aux._idMarca = (int)datos.Lector["Id"];
-            
+
                     lista.Add(aux);
                 }
 
@@ -155,26 +155,26 @@ namespace Tp2_Programacion
 
         public void Agregar(Articulo nuevo)
         {
-			AccesoDatos datos = new AccesoDatos();
-            
-			try
-			{
-				datos.setearConsulta("INSERT into ARTICULOS(Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio)values('"+ nuevo._codArticulo +"', '"+ nuevo._nombre +"','"+ nuevo._descripcion + "', @idMarca, @idCategoria, "+ nuevo._precio+")");
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT into ARTICULOS(Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio)values('" + nuevo._codArticulo + "', '" + nuevo._nombre + "','" + nuevo._descripcion + "', @idMarca, @idCategoria, " + nuevo._precio + ")");
                 datos.setearParametro("@idMarca", nuevo._marca._idMarca);
                 datos.setearParametro("@idCategoria", nuevo._categoria._idCategoria);
 
                 datos.ejecutarAccion();
 
-			}
-			catch (Exception ex)
-			{
+            }
+            catch (Exception ex)
+            {
 
-				throw ex;
-			}
-			finally
-			{
-				datos.cerrarConexion();
-			}
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
         public void Modificar(Articulo modificado)
@@ -186,7 +186,7 @@ namespace Tp2_Programacion
                 datos.setearParametro("@codArticulo", modificado._codArticulo);
                 datos.setearParametro("@nombre", modificado._nombre);
                 datos.setearParametro("@descripcion", modificado._descripcion);
-                datos.setearParametro("@idMarca",modificado._marca._idMarca);
+                datos.setearParametro("@idMarca", modificado._marca._idMarca);
                 datos.setearParametro("@idCategoria", modificado._categoria._idCategoria);
                 datos.setearParametro("@precio", modificado._precio);
                 datos.setearParametro("@id", modificado.ID);
@@ -198,7 +198,7 @@ namespace Tp2_Programacion
 
                 throw ex;
             }
-            finally { datos.cerrarConexion();}
+            finally { datos.cerrarConexion(); }
         }
 
         public void Eliminar(int idEliminado)
@@ -224,7 +224,8 @@ namespace Tp2_Programacion
             try
             {
                 string consulta = "SELECT a.id,a.Codigo,a.Descripcion, a.Nombre,c.Id as 'idCategoria',c.Descripcion as 'Categoria',m.Id as 'idMarca', m.Descripcion as 'Marca', a.Precio, i.imagenurl from ARTICULOS a left join categorias c on c.Id = a.IdCategoria INNER join MARCAS m on m.Id = a.IdMarca inner join imagenes i on i.id = a. id And ";
-                if (campo == "Marca") {
+                if (campo == "Marca")
+                {
                     switch (criterio)
                     {
                         case "Comienza con":
@@ -238,7 +239,7 @@ namespace Tp2_Programacion
                             break;
                     }
                 }
-                else if(campo == "Nombre")
+                else if (campo == "Nombre")
                 {
                     switch (criterio)
                     {
@@ -289,7 +290,7 @@ namespace Tp2_Programacion
 
                     lista.Add(aux);
                 }
-                
+
                 return lista;
             }
             catch (Exception ex)
