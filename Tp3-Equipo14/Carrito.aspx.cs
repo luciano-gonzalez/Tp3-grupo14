@@ -19,6 +19,13 @@ namespace Tp3_Equipo14
         {
             if (!IsPostBack)
             {
+                //acá modifico
+                List<Articulo> lista = new List<Articulo>();
+                lista = ((List<Articulo>)Session["carrito"]);
+                dgvCarro.DataSource = lista;
+                dgvCarro.DataBind();
+                //acá modifico
+                /*
                 ArticulosNegocio negocio = new ArticulosNegocio();
                 int[] vectorids = (int[])Session["vecIds"];
                 int cantArticulosCarrito = 0;
@@ -42,8 +49,23 @@ namespace Tp3_Equipo14
                         contArti++;
                     }
                 }
+                */
+                ///Agregar las imagenes al dgv
+                int indiceColumnaPrecio = 2;
 
+                decimal totalPrecioFinal = 0;
 
+                foreach (GridViewRow fila in dgvCarro.Rows)
+                {
+                    if (fila.Cells[indiceColumnaPrecio].Text != string.Empty)
+                    {
+                        if (decimal.TryParse(fila.Cells[indiceColumnaPrecio].Text, out decimal precio))
+                        {
+                            totalPrecioFinal += precio;
+                        }
+                    }
+                }
+                /*
                 dgvCarrito.DataSource = vecArticulos;
                 dgvCarrito.DataBind();
 
@@ -63,8 +85,10 @@ namespace Tp3_Equipo14
                         }
                     }
                 }
+                 */
 
-                Label1.Text = totalPrecioFinal.ToString();
+                lblPrecioFinal.Text = totalPrecioFinal.ToString();
+                 
             }
         }
 
@@ -124,10 +148,44 @@ namespace Tp3_Equipo14
             }
             return contArti;
         }
+        protected void dgvCarro_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Eliminar")
+            {
 
+                int indice = Convert.ToInt32(e.CommandArgument);
+                //int id = int.Parse(dgvCarro.DataKeys[indice]["ID"].ToString());
+                List<Articulo> aux = (List<Articulo>)Session["carrito"];
+                if(aux.Count > 0 && indice >= 0)
+                {
+                    aux.RemoveAt(indice);
+                }
 
+                Session["carrito"] = aux;
+                dgvCarro.DataSource = Session["carrito"];
+                dgvCarro.DataBind();
+
+                int indiceColumnaPrecio = 2;
+
+                decimal totalPrecioFinal = 0;
+
+                foreach (GridViewRow fila in dgvCarro.Rows)
+                {
+                    if (fila.Cells[indiceColumnaPrecio].Text != string.Empty)
+                    {
+                        if (decimal.TryParse(fila.Cells[indiceColumnaPrecio].Text, out decimal precio))
+                        {
+                            totalPrecioFinal += precio;
+                        }
+                    }
+                }
+                lblPrecioFinal.Text = totalPrecioFinal.ToString();
+            }
+        }
+        /*
         protected void dgvCarrito_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+
             if (e.CommandName == "Eliminar")
             {
                 int indice = Convert.ToInt32(e.CommandArgument);
@@ -147,5 +205,7 @@ namespace Tp3_Equipo14
                 dgvCarrito.DataBind();
             }
         }
+         */
     }
 }
+              

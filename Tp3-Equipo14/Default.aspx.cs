@@ -69,9 +69,35 @@ namespace Tp3_Equipo14
             return aux;
         }
 
+        public List<Articulo> listaCarrito = new List<Articulo>();
         protected void btnCarrito_Click(object sender, EventArgs e)
         {
-          
+            /* acá modifico*/
+            
+            
+            List<Articulo>listaCompleta = new List<Articulo>();
+            int value = int.Parse(((Button)sender).CommandArgument);
+            ArticulosNegocio negocio = new ArticulosNegocio();
+            listaCompleta = negocio.listarconSP().Where(a => a.ID == value).ToList();
+            Articulo articulo1 = listaCompleta[0];
+            //listaCarrito.Add(articulo1);
+            //Session.Add("carrito", listaCarrito);
+            List<Articulo> listaCarrito = Session["carrito"] as List<Articulo>;
+
+            if (listaCarrito == null)
+            {
+                listaCarrito = new List<Articulo>();
+                listaCarrito.Add(articulo1);
+            }
+            else
+            {
+                listaCarrito.Add(articulo1);
+            }
+
+            Session["carrito"] = listaCarrito;
+
+            /* 
+            
             int cont = int.Parse(Session["contid"].ToString());
             int[] vectorids = (int[])Session["vecIds"];
             string valor = ((Button)sender).CommandArgument;
@@ -90,7 +116,9 @@ namespace Tp3_Equipo14
 
             }
             Session.Add("vecIds", vectorids);
+             */
         }
+        
 
         protected void filtro_TextChanged(object sender, EventArgs e)
         {
